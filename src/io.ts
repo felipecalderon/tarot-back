@@ -3,6 +3,8 @@ import { chat } from './chat'
 
 export const ioServer = (io: Server) => {
     io.on('connection', (socket) => {
+        console.log('usuario conectado')
+
         socket.on('data', async (data) => {
             console.log({ usuario: data.name, consulta: data.question })
 
