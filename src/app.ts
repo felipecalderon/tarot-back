@@ -8,7 +8,11 @@ const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
         origin: (origin, callback) => {
-            const allowedOrigins = ['http://localhost:3000', 'https://tarot-back-production.up.railway.app']
+            const allowedOrigins = [
+                'http://localhost:3000',
+                'https://tarot-back-production.up.railway.app',
+                'https://lecturatarot.vercel.app',
+            ]
             if (!origin) return callback(null, true) // Permitir clientes sin origen
             if (allowedOrigins.indexOf(origin) !== -1) {
                 callback(null, true)
