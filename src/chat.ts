@@ -30,7 +30,7 @@ export const chat = async ({ born, cards, name, question }: ReqProps) => {
             {
                 role: 'system',
                 content:
-                    'Ahora te explicaré lo que significa cada carta en base a tu consulta y te daré un análisis final en español',
+                    'Ahora te explicaré lo que representa cada carta basado en tu consulta y te daré un análisis final en español',
             },
         ],
     })
