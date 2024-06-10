@@ -5,7 +5,7 @@ import { zodiaco } from './utils/calcZodiaco'
 export const chat = async ({ born, cards, name, question }: ReqProps) => {
     const signo = zodiaco(born)
     const chat = await openai.chat.completions.create({
-        model: 'gpt-4-turbo',
+        model: 'gpt-4o',
         messages: [
             {
                 role: 'system',
@@ -15,7 +15,7 @@ export const chat = async ({ born, cards, name, question }: ReqProps) => {
             {
                 role: 'system',
                 content:
-                    'Vas a guiar al usuario e interpretar las cartas que le salgan, todo en base a la pregunta que tenga.',
+                    'Vas a guiar al usuario e interpretar las cartas que le salgan, relacionado a la pregunta que tenga y su personalidad según el horóscopo.',
             },
             {
                 role: 'user',
@@ -23,7 +23,7 @@ export const chat = async ({ born, cards, name, question }: ReqProps) => {
             },
             {
                 role: 'system',
-                content: `$${name}, las cartas que te han salido son: ${cards.map((cards, i) => {
+                content: `$${name}, las cartas que te han salido hoy son: ${cards.map((cards, i) => {
                     return `${i + 1}: ${cards.nombre} (${cards.representa.map((r) => r + ' ')}).`
                 })}`,
             },
