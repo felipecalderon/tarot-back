@@ -5,6 +5,7 @@ import { Server } from 'socket.io'
 import { ioServer } from './io'
 import { env } from './config'
 import { payRoute } from './routes/pay'
+import morgan from 'morgan'
 const app = express()
 
 app.use(
@@ -14,7 +15,7 @@ app.use(
 )
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+app.use(morgan('dev'))
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
