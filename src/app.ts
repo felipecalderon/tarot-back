@@ -1,9 +1,18 @@
 import express from 'express'
 import http from 'http'
+import cors from 'cors'
 import { Server } from 'socket.io'
 import { ioServer } from './io'
 import { env } from './config'
+import { payRoute } from './routes/pay'
 const app = express()
+
+app.use(
+    cors({
+        origin: '*',
+    })
+)
+
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
@@ -25,6 +34,8 @@ const io = new Server(server, {
 })
 
 ioServer(io)
+
+app.use('/pay', payRoute)
 
 server.listen(env.port, () => {
     console.log('Server running on port ' + env.port)
