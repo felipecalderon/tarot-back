@@ -18,5 +18,6 @@ export const mercadoPago = async (req: Request, res: Response) => {
 }
 
 export const mpHooks = async (req: Request, res: Response) => {
+    console.log(req.body)
     return res.json({ data: req.body })
 }
