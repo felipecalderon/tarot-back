@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { pref } from '../mercadopago'
+import { pref } from '../utils/mercadopago'
 
 export const mercadoPago = async (req: Request, res: Response) => {
     const pago = await pref.create({

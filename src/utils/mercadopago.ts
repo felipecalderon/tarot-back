@@ -1,5 +1,5 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
-import { env } from './config'
+import { env } from '../config/envs'
 
 const mp = new MercadoPagoConfig({
     accessToken: env.mpSecret as string,
