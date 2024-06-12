@@ -1,7 +1,7 @@
 import http from 'http'
 import { app } from './app'
 import { env } from './config/envs'
-import { initSocket } from './sockets/init'
+import { initSocket } from './config/initWebsocket'
 
 const server = http.createServer(app)
 

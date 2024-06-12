@@ -1,5 +1,5 @@
 import { ReqProps } from '../config/interfaces'
-import { openai } from '../openai'
+import { openai } from '../config/initOpenai'
 import { zodiaco } from './calcZodiaco'
 
 export const chat = async ({ born, cards, name, question }: ReqProps) => {

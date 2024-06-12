@@ -1,5 +1,5 @@
 import OpenAI from 'openai'
-import { env } from './config/envs'
+import { env } from './envs'
 
 export const openai = new OpenAI({
     apiKey: env.gptKey,
