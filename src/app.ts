@@ -16,6 +16,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 // routes
-app.use('pay', payRoute)
+app.use('/pay', payRoute)
 
 export { app }
