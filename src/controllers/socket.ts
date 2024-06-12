@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io'
 import { chat } from '../utils/chat'
 import { ReqProps } from '../config/interfaces'
+import { ioPayment } from './payment'
 
 const ioChat = async (data: ReqProps, socket: Socket) => {
     try {
@@ -20,6 +21,7 @@ export const ioController = (socket: Socket) => {
     console.log('usuario conectado')
 
     socket.on('data', async (data: ReqProps) => ioChat(data, socket))
+    socket.on('pay', async () => ioPayment(socket))
     socket.on('test', () => socket.emit('response', 'conexión correcta'))
     socket.on('disconnect', () => console.log('usuario desconectado'))
 }

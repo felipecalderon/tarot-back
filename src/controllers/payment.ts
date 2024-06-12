@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { pref } from '../utils/mercadopago'
+import { Socket } from 'socket.io'
 
 export const mercadoPago = async (req: Request, res: Response) => {
     const pago = await pref.create({
@@ -21,6 +22,21 @@ export const mercadoPago = async (req: Request, res: Response) => {
     })
     return res.json(pago)
 }
+let payment = false
+export const ioPayment = async (socket: Socket) => {
+    if (payment) {
+        socket.emit('payment', { payment: true })
+    }
+}
+interface PayRequest {
+    amount: number
+    caller_id: number
+    client_id: string
+    created_at: string
+    id: string
+    payment: { id: string; state: string; type: string }
+    state: string
+}
 
 export const mpHooks = async (req: Request, res: Response) => {
     console.log({
@@ -29,5 +45,6 @@ export const mpHooks = async (req: Request, res: Response) => {
         params: req.params,
         queries: req.query,
     })
-    return res.json({ data: req.body })
+    const {} = req.body
+    return res.json({ payment: 'recibido' })
 }
