@@ -1,9 +1,12 @@
 import { Server } from 'socket.io'
 import { Server as HttpServer } from 'http'
-import { ioController } from '../controllers/socket'
+import { ioChat } from '../controllers/socket'
+import { ReqProps } from './interfaces'
+
+let io: Server | undefined
 
 export const initSocket = (server: HttpServer) => {
-    const ioServer = new Server(server, {
+    io = new Server(server, {
         cors: {
             origin: (origin, callback) => {
                 const allowedOrigins = [
@@ -22,6 +25,22 @@ export const initSocket = (server: HttpServer) => {
         },
     })
 
-    ioServer.on('connection', ioController)
+    io.on('connection', (socket) => {
+        console.log('usuario conectado')
+        socket.on('data', async (data: ReqProps) => ioChat(data))
+        socket.on('pay', async () => socket.emit('response', 'hola'))
+        socket.on('test', () => socket.emit('response', 'conexión correcta'))
+        socket.on('disconnect', () => console.log('usuario desconectado'))
+    })
+
     console.log('Servidor WebSocket funcionando')
+
+    return io
+}
+
+export const getIo = () => {
+    if (!io) {
+        throw new Error('Socket.io no ha sido inicializado.')
+    }
+    return { io }
 }

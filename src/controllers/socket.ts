@@ -1,27 +1,18 @@
-import { Socket } from 'socket.io'
 import { chat } from '../utils/chat'
 import { ReqProps } from '../config/interfaces'
-import { ioPayment } from './payment'
+import { getIo } from '../config/initWebsocket'
 
-const ioChat = async (data: ReqProps, socket: Socket) => {
+export const ioChat = async (data: ReqProps) => {
+    const { io } = getIo()
     try {
         console.log({ usuario: data.name, consulta: data.question })
 
         if (data) {
             const response = await chat(data)
-            socket.emit('response', response)
+            io.emit('response', response)
         }
     } catch (error) {
         console.log({ error })
-        socket.emit('error', 'Ha ocurrido un error')
+        io.emit('error', 'Ha ocurrido un error')
     }
-}
-
-export const ioController = (socket: Socket) => {
-    console.log('usuario conectado')
-
-    socket.on('data', async (data: ReqProps) => ioChat(data, socket))
-    socket.on('pay', async () => ioPayment(socket))
-    socket.on('test', () => socket.emit('response', 'conexión correcta'))
-    socket.on('disconnect', () => console.log('usuario desconectado'))
 }

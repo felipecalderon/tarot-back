@@ -1,8 +1,10 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { pref } from '../utils/mercadopago'
-import { Socket } from 'socket.io'
+import { getIo } from '../config/initWebsocket'
 
 export const mercadoPago = async (req: Request, res: Response) => {
+    const { io } = getIo()
+    io.emit('response', 'holaaa')
     const pago = await pref.create({
         body: {
             items: [
@@ -22,23 +24,19 @@ export const mercadoPago = async (req: Request, res: Response) => {
     })
     return res.json(pago)
 }
-let payment = false
-export const ioPayment = async (socket: Socket) => {
-    if (payment) {
-        socket.emit('payment', { payment: true })
-    }
-}
+
 interface PayRequest {
-    amount: number
-    caller_id: number
-    client_id: string
-    created_at: string
+    action: string
+    api_version: string
+    data: { id: string }
+    date_created: Date
     id: string
-    payment: { id: string; state: string; type: string }
-    state: string
+    live_mode: boolean
+    type: string
+    user_id: number
 }
 
-export const mpHooks = async (req: Request, res: Response) => {
+export const mpHooks = async (req: Request<{}, {}, PayRequest, {}>, res: Response) => {
     console.log({
         data: req.body,
         headers: req.headers,
