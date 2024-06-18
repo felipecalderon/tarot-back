@@ -1,4 +1,5 @@
 export type Carta = {
+    id: string
     nombre: string
     name: string
     categoria: string
@@ -7,8 +8,10 @@ export type Carta = {
     img: string
 }
 
-export type ReqProps = {
+export type Consulta = {
+    id: string
     question: string
+    answer: string
     name: string
     born: string
     cards: Carta[]

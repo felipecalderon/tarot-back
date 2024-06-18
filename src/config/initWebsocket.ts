@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 import { Server as HttpServer } from 'http'
 import { ioChat } from '../controllers/socket'
-import { ReqProps } from './interfaces'
+import { Consulta } from './interfaces'
 
 let io: Server | undefined
 
@@ -27,7 +27,7 @@ export const initSocket = (server: HttpServer) => {
 
     io.on('connection', (socket) => {
         console.log('usuario conectado')
-        socket.on('data', async (data: ReqProps) => ioChat(data))
+        socket.on('data', async (data: Omit<Consulta, 'id' | 'answer'>) => ioChat(data))
         socket.on('pay', async () => socket.emit('response', 'hola'))
         socket.on('test', () => socket.emit('response', 'conexión correcta'))
         socket.on('disconnect', () => console.log('usuario desconectado'))

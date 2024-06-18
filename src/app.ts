@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import { payRoute } from './routes/pay'
+import { dbRoute } from './routes/db'
 
 const app = express()
 
@@ -17,5 +18,6 @@ app.use(morgan('dev'))
 
 // routes
 app.use('/pay', payRoute)
+app.use('/db', dbRoute)
 
 export { app }

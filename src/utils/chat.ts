@@ -1,8 +1,8 @@
-import { ReqProps } from '../config/interfaces'
+import { Consulta } from '../config/interfaces'
 import { openai } from '../config/initOpenai'
 import { zodiaco } from './calcZodiaco'
 
-export const chat = async ({ born, cards, name, question }: ReqProps) => {
+export const chat = async ({ born, cards, name, question }: Omit<Consulta, 'id' | 'answer'>) => {
     const signo = zodiaco(born)
     const chat = await openai.chat.completions.create({
         model: 'gpt-4o',
