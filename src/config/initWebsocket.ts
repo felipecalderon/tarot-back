@@ -41,6 +41,8 @@ export const initSocket = (server: HttpServer) => {
                         cards: data.cards,
                         question: data.question,
                     })
+                } else {
+                    socket.emit('error', 'No se pudo consultar al oráculo 😟 contacte al administrador')
                 }
             }
         })
