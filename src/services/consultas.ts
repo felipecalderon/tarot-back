@@ -28,10 +28,27 @@ export const getAllConsultas = async (name: string) => {
     try {
         const consultas = await prisma.consultas.findMany({
             where: {
-                name: name,
+                name: {
+                    contains: name,
+                },
             },
         })
-        return consultas
+
+        const cardIds = consultas.flatMap((consulta) => consulta.cards)
+
+        const cards = await prisma.carta.findMany({
+            where: {
+                id: {
+                    in: cardIds,
+                },
+            },
+        })
+
+        const consultasWithCards = consultas.map((consulta) => ({
+            ...consulta,
+            cards: consulta.cards.map((cardId) => cards.find((card) => card.id === cardId)),
+        }))
+        return consultasWithCards
     } catch (error) {
         console.log(error)
         return []
