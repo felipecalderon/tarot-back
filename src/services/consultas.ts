@@ -32,6 +32,9 @@ export const getAllConsultas = async (name: string) => {
                     contains: name,
                 },
             },
+            orderBy: {
+                name: 'asc',
+            },
         })
 
         const cardIds = consultas.flatMap((consulta) => consulta.cards)
