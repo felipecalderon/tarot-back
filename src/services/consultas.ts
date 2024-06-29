@@ -24,7 +24,7 @@ export const createConsulta = async ({ question, born, cards, name, answer }: Om
     }
 }
 
-export const getAllConsultas = async (name: string) => {
+export const getAllConsultas = async (name?: string) => {
     try {
         const consultas = await prisma.consultas.findMany({
             where: {
@@ -37,20 +37,15 @@ export const getAllConsultas = async (name: string) => {
             },
         })
 
-        const cardIds = consultas.flatMap((consulta) => consulta.cards)
+        const cards = await prisma.carta.findMany()
 
-        const cards = await prisma.carta.findMany({
-            where: {
-                id: {
-                    in: cardIds,
-                },
-            },
-        })
-
+        const cardMap = new Map(cards.map((card) => [card.id, card]))
+        // Mapear las consultas con las cartas correspondientes
         const consultasWithCards = consultas.map((consulta) => ({
             ...consulta,
-            cards: consulta.cards.map((cardId) => cards.find((card) => card.id === cardId)),
+            cards: consulta.cards.map((cardId) => cardMap.get(cardId)),
         }))
+
         return consultasWithCards
     } catch (error) {
         console.log(error)
