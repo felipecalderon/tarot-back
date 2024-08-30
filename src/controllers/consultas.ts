@@ -16,7 +16,7 @@ export const buscarConsultas = async (
     res: Response
 ) => {
     const { q, page, pageSize } = req.query
-    const consultas = await getAllConsultas(q, Number(page), Number(pageSize))
+    const consultas = await getAllConsultas(q, Number(page ? page : 1), Number(pageSize ? pageSize : 10))
     res.json(consultas)
 }
 

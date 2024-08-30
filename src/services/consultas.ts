@@ -59,7 +59,7 @@ export const getAllConsultas = async (name?: string, page: number = 1, pageSize:
                         name: 'desc',
                     },
                 },
-                take: 15, // Obtener los 5 nombres más repetidos
+                take: 15,
             }),
         ])
         const cards = await prisma.carta.findMany()
