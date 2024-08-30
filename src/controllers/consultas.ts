@@ -11,9 +11,12 @@ export const nuevaConsulta = async (req: Request<{}, {}, Partial<Consulta>, {}>,
     res.json({ ok: true })
 }
 
-export const buscarConsultas = async (req: Request<{}, {}, {}, { q: string }>, res: Response) => {
-    const { q } = req.query
-    const consultas = await getAllConsultas(q)
+export const buscarConsultas = async (
+    req: Request<{}, {}, {}, { q?: string; page?: string; pageSize?: string }>,
+    res: Response
+) => {
+    const { q, page, pageSize } = req.query
+    const consultas = await getAllConsultas(q, Number(page), Number(pageSize))
     res.json(consultas)
 }
 
